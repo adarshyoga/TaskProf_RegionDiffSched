@@ -1,0 +1,10 @@
+The "test_work_span.cpp" contains the example with scheduling overhead
+
+Running make compiles the proram.
+
+1) Run example.
+   > ./test_work_span 16
+
+4) Now run TaskProf analysis tool.
+   > $TP_GENPROF/gentprof
+The scheduling overhead profile will be generated in sc_ov_profile.csv.

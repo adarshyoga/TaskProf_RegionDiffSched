@@ -1,0 +1,9 @@
+The "par_small_array.cpp" contains the example with false sharing. The "par_small_array_padded.cpp" contains the example with false sharing resolved using padding.
+
+Running make compiles both version.
+
+1) Run example with false sharing.
+   > ./par_small_array <NUM_THREADS>
+
+2) Run example with false sharing resolved using padding.
+   > ./par_small_array_padded <NUM_THREADS>

@@ -1,0 +1,51 @@
+This is an example to demonstrate how to improve the parallelism of a program with TaskProf.
+The program takes a range of integers and returns the set of prime numbers within that range.
+There are three implementations of the program in the "tests" folder. They are the serial implementation, parallel implementation using raw threads and parallel implementation using TBB.
+The "tests_prof" folder contains the TBB implementation setup to run with TaskProf profiler.
+
+1) Build the program in the "tests" folder.
+   Setup the environmental varialbes for TBB version not modified for TaskProf profiler.
+   > source /home/adarsh/intel/tbb/bin/tbbvars.sh intel64
+
+   Then run make.
+
+2) Run the serial version of the program passing the range of integers as arguments
+   > time ./detect_primes 0 10000000
+   Expected runtime: 17.486s
+
+2) Run the the thread based parallel version.
+   > time ./detect_primes_threads 0 10000000
+   Expected runtime: 6.421s
+
+3) Run the TBB version. This also takes the grain size as argument.
+   Set a large grain size.
+   > time ./detect_primes_tasks 0 10000000 2500000
+   Expected runtime: 6.439s
+   Notice running time is similar to the threaded version. Now execute with TaskProf
+
+4) On a separate shell, setup Profiler environment.
+   Build task profiler library
+   > cd $APL_ROOT/task_profiler/ptprof_lib
+   > make
+   > source tpvars.sh
+
+   Build TBB
+   > cd $APL_ROOT/task_debug/tbb43_20141204oss
+   > make
+   > source build/linux_intel64_gcc_cc4.8_libc2.19_kernel3.13.0_release/tbbvars.sh
+
+5) Run make in "tests_prof" folder and run the program.
+   > ./detect_primes_tasks 0 10000000 2500000
+   This generates the profile ws_profile.csv. Notice that the parallelism in the program is low ~2.
+   To find the region of code that is the bottleneck, notice that the profile says that line 52 or 54 does the major percentage of work on the critical path.
+   Now designate the region of code between lines 34 and 48 (already annotated) as the region to optimize and run the program again.
+   The profiler will generate region profiles giving an estimate of the increase in parallelism of the program when the parallelism of the region is increased.
+   This is in region_1.csv.
+
+6) Now increase the parallelism in the program by running it with smaller grain size.
+   > time ./detect_primes_tasks 0 10000000 10000
+   Notice the parallelism increased in the ws_profile.csv.
+
+7) Similarly execute the program with smaller grain size in the "tests" folder to check running time.
+   > time ./detect_primes_tasks 0 10000000 10000
+   Expected time: 4.997s

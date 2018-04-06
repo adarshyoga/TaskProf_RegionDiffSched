@@ -1,0 +1,16 @@
+The "par_small_array.cpp" contains the example with false sharing. The "par_small_array_padded.cpp" contains the example with false sharing resolved using padding.
+
+Running make compiles both version.
+
+1) Run example with false sharing with TaskProf. First run with 1 thread.
+   > ./par_small_array 1
+
+2) To perform differential analyis TaskProf expects the logs for 1-thread version in "step_nodes_serial" directory.
+   > mv *.csv step_nodes_serial/
+
+3) Run 16 thread version.
+   > ./par_small_array 16
+
+4) Now run TaskProf analysis tool.
+   > $TP_GENPROF/gentprof
+The differential profile will be generated in step_diff_file.csv.

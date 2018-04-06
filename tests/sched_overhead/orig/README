@@ -1,0 +1,6 @@
+The "test_work_span.cpp" contains the example with scheduling overhead
+
+Running make compiles both the program.
+
+1) Run example with scheduling overhead.
+   > ./test_work_span <NUM_THREADS>

@@ -1,0 +1,13 @@
+INSTRUCTIONS TO BUILD TASKPROF WITH AUTOMATIC REGION IDENTIFICATION,DIFFERENTIAL ANALYSIS,SCHEDULING OVERHEAD
+-------------------------------------------------------------------------------------------------------------
+1. First build original TBB library without modification for TaskProf
+   > source build_orig_tbb.sh
+
+2. Install TaskProf in a separate shell session.
+   > source build_tprof.sh
+
+TaskProf generates 3 profiles
+1) regions_automatic.csv - shows the regions that need to optimized to improve parallelism.
+2) step_diff_file.csv - The differential profile
+3) sc_ov_profile.csv - The scheduling overhead profile.
+Try false sharing and scheduling overhead test programs in tests/tbb_tests/false_sharing and tests/tbb_tests/sched_overhead respectively.
