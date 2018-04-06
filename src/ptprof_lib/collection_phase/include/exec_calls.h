@@ -24,7 +24,7 @@ extern Task_Logger* taskLogger;
 #define __OPTIMIZE__END__ __optimize_end__(__FILE__, __LINE__);
 
 extern "C" {
-  __attribute__((noinline)) void TD_Activate(const char* file, int line);
+  __attribute__((noinline)) void TD_Activate(const char* file, int line, int counter_type = 0);
 
   __attribute__((noinline)) void Fini(const char* file, int line);
 

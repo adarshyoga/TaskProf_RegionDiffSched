@@ -11,3 +11,24 @@ TaskProf generates 3 profiles
 2) step_diff_file.csv - The differential profile
 3) sc_ov_profile.csv - The scheduling overhead profile.
 Try false sharing and scheduling overhead test programs in tests/tbb_tests/false_sharing and tests/tbb_tests/sched_overhead respectively.
+
+PROCESS FOR SELECTING PERFORMANCE COUNTERS
+------------------------------------------
+TaskProf can use a number of hardware performance counter types to profile applications. For instance, TaskProf can use hardware cycles, instructions, page faults, etc to measure work performed in a program.
+The programmer can control the profiling by specifying the type of hardware performance counter to use while profiling.
+The program counter type can be specified using TD_Activate function call, which is called at the beginning of the program.
+   TD_Activate(__FILE__,__LINE__,<counter_type>);
+<counter_type> accepts integer values. If <counter_type> is not provided, TaskProf uses 0 which corresponds to harware cycles.
+The following are the integer <counter_type> values for hardware performance counter types currently supported by TaskProf.
+  CYCLES = 0
+  INSTRUCTIONS = 1
+  LOCAL_HITM = 2
+  REMOTE_HITM = 3
+  LOCAL_DRAM = 4
+  REMOTE_DRAM = 5
+  PAGE_FAULTS = 6
+  LLC_MISS = 7
+  L1_M_REPLACE = 8
+  L1_EVICTION = 9
+  L1_REPLACEMENT = 10
+  FP_DIVIDE = 11

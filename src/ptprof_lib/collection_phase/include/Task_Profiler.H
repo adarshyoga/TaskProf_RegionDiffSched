@@ -19,6 +19,21 @@
 extern AFTaskGraph* taskGraph;
 extern Task_Logger* taskLogger;
 
+enum CounterType {
+  CYCLES = 0,
+  INSTRUCTIONS = 1,
+  LOCAL_HITM = 2,
+  REMOTE_HITM = 3,
+  LOCAL_DRAM = 4,
+  REMOTE_DRAM = 5,
+  PAGE_FAULTS = 6,
+  LLC_MISS = 7,
+  L1_M_REPLACE = 8,
+  L1_EVICTION = 9,
+  L1_REPLACEMENT = 10,
+  FP_DIVIDE = 11
+};
+
 struct sched_overhead_data {
   size_t sched_ohead_work;
   size_t sched_calls;
@@ -26,6 +41,7 @@ struct sched_overhead_data {
 
 class Task_Profiler {
 private:
+  int p_counter_type;
   std::unordered_map<size_t, struct CallSiteData*> regionMap;
   Task_Logger t_logger;
 
@@ -38,7 +54,8 @@ private:
   void start_count(THREADID threadid);
 
 public:
-  Task_Profiler();
+  Task_Profiler(int counter_type);
+  void set_counter_type(struct perf_event_attr* pe);
   void TP_CaptureExecute(THREADID threadid);
   void TP_CaptureReturn(THREADID threadid);
   void TP_CaptureWait_Entry(THREADID threadid);

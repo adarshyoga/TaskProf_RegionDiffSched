@@ -7,8 +7,66 @@
 
 //#include "CallSiteData.H"
 
-Task_Profiler::Task_Profiler() {
+void Task_Profiler::set_counter_type(struct perf_event_attr* pe) {
+  CounterType c = (CounterType) p_counter_type;
+  switch( c ) {
+  case CYCLES:
+    pe->type = PERF_TYPE_HARDWARE;
+    pe->config = PERF_COUNT_HW_CPU_CYCLES;
+    break;
+  case INSTRUCTIONS:
+    pe->type = PERF_TYPE_HARDWARE;
+    pe->config = PERF_COUNT_HW_INSTRUCTIONS;
+    break;
+  case LOCAL_HITM:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x4D2;
+    break;
+  case REMOTE_HITM:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x10D3;
+    break;
+  case LOCAL_DRAM:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x1D3;
+    break;
+  case REMOTE_DRAM:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x4D3;
+    break;
+  case PAGE_FAULTS:
+    pe->type = PERF_TYPE_SOFTWARE;
+    pe->config = PERF_COUNT_SW_PAGE_FAULTS;
+    break;
+  case LLC_MISS:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x20d1;
+    break;
+  case L1_M_REPLACE:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x851;
+    break;
+  case L1_EVICTION:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x451;
+    break;
+  case L1_REPLACEMENT:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x151;
+    break;
+  case FP_DIVIDE:
+    pe->type = PERF_TYPE_RAW;
+    pe->config = 0x114;
+    break;
+  default:
+    pe->type = PERF_TYPE_HARDWARE;
+    pe->config = PERF_COUNT_HW_CPU_CYCLES;
+  }
+}
+
+Task_Profiler::Task_Profiler(int counter_type) {
   start_count(0);
+  p_counter_type = counter_type;
 }
 
 int Task_Profiler::perf_event_open_wrapper(struct perf_event_attr *hw_event, pid_t pid,
@@ -25,14 +83,15 @@ void Task_Profiler::start_count(THREADID threadid) {
   struct perf_event_attr pe;
 
   memset(&pe, 0, sizeof(struct perf_event_attr));
+  pe.size = sizeof(struct perf_event_attr);
+  set_counter_type(&pe);
   //pe.type = PERF_TYPE_RAW;
-  pe.type = PERF_TYPE_HARDWARE;
+  //pe.type = PERF_TYPE_HARDWARE;
   //pe.type = PERF_TYPE_SOFTWARE;
   //pe.type = PERF_TYPE_HW_CACHE;
-  pe.size = sizeof(struct perf_event_attr);
   //pe.config = PERF_COUNT_SW_PAGE_FAULTS;
   //pe.config = PERF_COUNT_HW_INSTRUCTIONS;
-  pe.config = PERF_COUNT_HW_CPU_CYCLES;
+  //pe.config = PERF_COUNT_HW_CPU_CYCLES;
   //pe.config = 0x10D3;0x4D2;//HITM
   //pe.config = 0x4D3;//remote_dram
   //pe.config = 0x114;//fp_divide

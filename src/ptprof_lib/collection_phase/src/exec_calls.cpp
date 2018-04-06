@@ -18,11 +18,11 @@ Task_Profiler* taskProf;
 Task_Logger* taskLogger;
 
 extern "C" {
-  void TD_Activate(const char* file, int line) {
+  void TD_Activate(const char* file, int line, int counter_type) {
     taskLogger = new Task_Logger();
     taskGraph = new AFTaskGraph();
     taskGraph->setStepRegion(0, file, line, true);
-    taskProf = new Task_Profiler();
+    taskProf = new Task_Profiler(counter_type);
   }
 
   void Fini(const char* file, int line)

@@ -59,16 +59,28 @@ void AFTaskGraph::diff_anal_data (size_t total_par_work, size_t total_ser_work) 
       for (auto ser_it = ser_end_data.begin(); ser_it != ser_end_data.end(); ser_it++) {
 	if (par_it->cs_filename.compare(ser_it->cs_filename) == 0 &&
 	    par_it->cs_line_number == ser_it->cs_line_number) {
+	  if (ser_it->work == 0) {
 	  //Found! dump data
-	  step_diff_file << start_file << ","
-			 << par_it->cs_filename << ":" << par_it->cs_line_number << ","
-			 << par_it->work << ","
-			 << ((double)par_it->work/(double)total_par_work)*100.00 << ","
-			 << ser_it->work << ","
-			 << ((double)ser_it->work/(double)total_ser_work)*100.00 << ","
-			 << ((double)par_it->work/(double)total_ser_work)*100.00 << ","
-			 << (double)((double)par_it->work/(double)ser_it->work) << "X"
-			 << std::endl;
+	    step_diff_file << start_file << ","
+			   << par_it->cs_filename << ":" << par_it->cs_line_number << ","
+			   << par_it->work << ","
+			   << ((double)par_it->work/(double)total_par_work)*100.00 << ","
+			   << ser_it->work << ","
+			   << ((double)ser_it->work/(double)total_ser_work)*100.00 << ","
+			   << ((double)par_it->work/(double)total_ser_work)*100.00 << ","
+			   << par_it->work << "X"
+			   << std::endl;
+	  } else {
+	      step_diff_file << start_file << ","
+			     << par_it->cs_filename << ":" << par_it->cs_line_number << ","
+			     << par_it->work << ","
+			     << ((double)par_it->work/(double)total_par_work)*100.00 << ","
+			     << ser_it->work << ","
+			     << ((double)ser_it->work/(double)total_ser_work)*100.00 << ","
+			     << ((double)par_it->work/(double)total_ser_work)*100.00 << ","
+			     << (double)((double)par_it->work/(double)ser_it->work) << "X"
+			     << std::endl;
+	  }
 	  break;
 	}
       }

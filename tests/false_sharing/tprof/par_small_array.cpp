@@ -27,7 +27,7 @@ void ParallelApplyFoo( char a[], size_t n ) {
 
 int main(int argc, char** argv) {
   tbb::task_scheduler_init init(atoi(argv[1]));
-  TD_Activate(__FILE__,__LINE__);
+  TD_Activate(__FILE__,__LINE__,2);
   ParallelApplyFoo(a, ARRAY_SIZE);
   Fini(__FILE__,__LINE__);
 }
