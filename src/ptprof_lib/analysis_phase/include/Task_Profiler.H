@@ -58,6 +58,12 @@ private:
   void attributeSOvToCallSite();
   void checkStepNodes();
   size_t findAncestorCallSite(struct AFTask* node);
+  void GenerateWhatIfProfile(std::string);
+
+  void checkUpdateParentWorkSpan_what_if(size_t parent_index, size_t* num_processed, std::unordered_map<size_t, struct WorkSpanData>* workSpanMap);
+  void calculateRecurse_what_if(struct AFTask* node, std::unordered_map<size_t, struct WorkSpanData>* workSpanMap);
+  void calculateWorkSpan_what_if(struct AFTask* node);
+  
 public:
   Task_Profiler();
   size_t GenerateProfile(std::string);
