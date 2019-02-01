@@ -1,0 +1,24 @@
+1) For applications with high task creation overhead, Intel VTune
+highlights the high overhead, but attributes the high overhead to TBB
+runtime functions. For instance, in nbody and swaptions, VTune shows a
+major chunk of the CPU time is spent in "start_for" calls in the TBB
+runtime.
+
+2) VTune's hotspot analysis does not differentiate between TBB runtime
+code and application code. Hence, the hotspot analysis reported
+regions from the TBB runtime. For instance, all the hotspots reported
+for MILCmk are from the TBB runtime. In contrast, our profiler reports
+specific regions which have low parallelism and high tasking overhead.
+
+3) Even when VTune's hotspot analysis reports regions belonging to the
+application, the regions are performing the most work in the entire
+execution. For example in BFS program, VTune reports two calls to
+work_balance which corresponds to a parallel_for call. Increasing the
+parallelism in the parallel_for did not improve the speedup of the
+program. Instead our profiler reported two serial sections of the
+program which we parallelized to improve the speedup.
+
+4) VTune can profile for hardware utilization using performance
+counters. It attributes the utilization with program sections. For
+Lulesh, VTune shows the utulization of CPU, caches and memory
+units. VTune reports the raw counts with program callsites.

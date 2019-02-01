@@ -1,0 +1,6 @@
+The VTune profile for spanning forest shows that the CPU utilization
+of the program is low. It reports hotspots that belong to libc and the
+spanning forest application. It regions that belong to the application
+correspond to two parallel_fors and one serial section. But further
+parallelizing there regions did not increase the speedup of the
+program.

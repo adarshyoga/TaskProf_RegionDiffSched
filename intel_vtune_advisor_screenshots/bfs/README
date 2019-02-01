@@ -1,0 +1,4 @@
+The screenshots for BFS show poor CPU utilization due to serialization
+bottlenecks in the program. The hotspots reported correspond to code
+in libc and parallel for calls in the BFS code. Increasing the
+parallelism in these regions did not result in improvement in speedup.

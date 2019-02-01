@@ -1,0 +1,6 @@
+The VTune profile for nbody shows that the program has good cpu
+utilization, but high task scheduling overhead. The task scheduling
+overhead is attributed to TBB scheduler internals in the TBB
+runtime. VTune also highlights a serial section in "direct"
+function. But this is not the serial section that we optimized to
+improve the parallelism.

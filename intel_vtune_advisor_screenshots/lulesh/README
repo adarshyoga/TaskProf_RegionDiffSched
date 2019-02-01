@@ -1,0 +1,5 @@
+The VTune profile for lulesh shows the CPU utilization to be
+low. VTune identifies 4 parallel_for calls to be the hotspots in the
+program. These 4 parallel_for calls take up the majority of the CPU
+execution time. But parallelizing them did not improve the speedup of
+the program.

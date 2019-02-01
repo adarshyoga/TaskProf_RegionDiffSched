@@ -1,0 +1,4 @@
+The screenshot shows the top hotspots in the MILCmk program. The
+reported hotspots correspond to code regions in the TBB runtime. Intel
+VTune also report high scheduling overhead and attributes them to TBB
+scheduler internals.

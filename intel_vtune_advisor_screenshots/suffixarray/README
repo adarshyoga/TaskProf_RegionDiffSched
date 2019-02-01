@@ -1,0 +1,5 @@
+The profile for suffix array program reports high task scheduling
+overhead and low cpu utilization. The high tasking overhead is
+attributed to regions in the TBB runtime. The profiler also identifies
+other hotspots in the application which correspond to parallel for
+calls that execute for the most time.
