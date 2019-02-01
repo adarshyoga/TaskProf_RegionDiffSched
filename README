@@ -1,5 +1,9 @@
 INSTRUCTIONS TO BUILD TASKPROF WITH AUTOMATIC REGION IDENTIFICATION,DIFFERENTIAL ANALYSIS,SCHEDULING OVERHEAD
 -------------------------------------------------------------------------------------------------------------
+
+OFFLINE ANALYSIS
+----------------
+
 1. First build original TBB library without modification for TaskProf
    > source build_orig_tbb.sh
 
@@ -32,3 +36,25 @@ The following are the integer <counter_type> values for hardware performance cou
   L1_EVICTION = 9
   L1_REPLACEMENT = 10
   FP_DIVIDE = 11
+  
+  ONLINE ANALYSIS
+  ---------------
+  
+  Install TaskProf online profiler in a separate shell session.
+   > source build_online.sh
+  
+  Build the input program.  
+  We provide a Python script that automates the what-if analysis and generates the profiles.
+  
+  > cd <path_to_TaskProf>/src/ptprof_lib/online_profiling/scripts
+  
+  Use the help option with causal_profiler.py script to specify command line options.
+  > python causal_profiler.py --help
+   -p -> Full path to program executable (required)
+   -b -> name of executable binary (required)
+   -a -> arguments to the program
+   -f -> optimization factor
+   -t -> threshold parallelism
+   
+   The python script after performing analysis generates the parallelism profile in parallelism_profile.csv, 
+   what-if profile in causal_profile.csv and differential profile in step_diff_file.csv.
